@@ -47,6 +47,11 @@ open class RBuilder {
     ): ReactElement =
         child(this, jsObject(), handler)
 
+    operator fun <P : RProps> FunctionalComponent<P>.invoke(
+        handler: RHandler<P>
+    ): ReactElement =
+        child(this, jsObject(), handler)
+
     operator fun <T> RProvider<T>.invoke(
         value: T,
         handler: RHandler<RProviderProps<T>>
