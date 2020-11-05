@@ -25,8 +25,6 @@ subprojects {
 
         tasks.withType<KotlinJsCompile>().configureEach {
             kotlinOptions {
-                moduleKind = "commonjs"
-
                 if (name == "compileKotlinJs") {
                     outputFile = jsOutputFile
                     sourceMapEmbedSources = "always"
@@ -37,10 +35,12 @@ subprojects {
             }
         }
     }
+    afterEvaluate {
+        tasks.withType<KotlinCompile<*>>().configureEach {
+            if (!name.endsWith("JsIr")) {
+                kotlinOptions.allWarningsAsErrors = true
+            }
 
-    tasks.withType<KotlinCompile<*>>().configureEach {
-        if (!name.endsWith("JsIr")) {
-            kotlinOptions.allWarningsAsErrors = true
         }
     }
 }

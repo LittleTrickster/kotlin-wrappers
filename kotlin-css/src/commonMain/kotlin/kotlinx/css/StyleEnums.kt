@@ -11,7 +11,7 @@ abstract class CssValue(open val value: String) {
 enum class Align {
     initial, inherit, unset,
 
-    auto, stretch, center, flexStart, flexEnd, baseline;
+    auto, stretch, center, start, end, selfStart, selfEnd, flexStart, flexEnd, baseline;
 
     override fun toString() = name.hyphenize()
 }
@@ -281,7 +281,7 @@ class Color(override val value: String) : CssValue(value) {
         val white = Color("white", "#ffffff")
         val whiteSmoke = Color("whitesmoke", "#f5f5f5")
         val yellow = Color("yellow", "#ffff00")
-        val yellowGreen = Color("yellowgreen", "#9acd3")
+        val yellowGreen = Color("yellowgreen", "#9acd32")
 
         fun normalizeFractionalPercent(value: Double): Double =
             value.coerceIn(minimumValue = 0.0, maximumValue = 1.0)
@@ -533,6 +533,8 @@ class Color(override val value: String) : CssValue(value) {
     }
 }
 
+private fun String.withZeros() = this + "0".repeat(max(0, 3 - this.length))
+fun hex(value: Int) = Color("#${value.toString(16).withZeros()}")
 fun rgb(red: Int, green: Int, blue: Int) = Color("rgb($red, $green, $blue)")
 fun rgba(red: Int, green: Int, blue: Int, alpha: Double) = Color("rgba($red, $green, $blue, ${formatAlpha(alpha)})")
 fun hsl(hue: Int, saturation: Int, lightness: Int) = Color("hsl($hue, $saturation%, $lightness%)")
